@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "240194111803",
+    "project_id": "louetonbien-7f14f",
+    "storage_bucket": "louetonbien-7f14f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240194111803:android:6637578f36d2a1ad998f1e",
+        "android_client_info": {
+          "package_name": "com.mycompany.louetonbien"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVY3Xl9_8m9dy-XeLWc3ytBJcfQ7qIIBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
