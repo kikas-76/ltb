@@ -16,8 +16,6 @@ class EditBookingComponentModel
 
   ///  State fields for stateful widgets in this component.
 
-  DateTime? datePicked1;
-  DateTime? datePicked2;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;

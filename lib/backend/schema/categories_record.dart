@@ -40,12 +40,18 @@ class CategoriesRecord extends FirestoreRecord {
   String get value => _value ?? '';
   bool hasValue() => _value != null;
 
+  // "order" field.
+  int? _order;
+  int get order => _order ?? 0;
+  bool hasOrder() => _order != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
     _iconPath = snapshotData['icon_path'] as String?;
     _color = getSchemaColor(snapshotData['color']);
     _value = snapshotData['value'] as String?;
+    _order = castToType<int>(snapshotData['order']);
   }
 
   static CollectionReference get collection =>
@@ -88,6 +94,7 @@ Map<String, dynamic> createCategoriesRecordData({
   String? iconPath,
   Color? color,
   String? value,
+  int? order,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -96,6 +103,7 @@ Map<String, dynamic> createCategoriesRecordData({
       'icon_path': iconPath,
       'color': color,
       'value': value,
+      'order': order,
     }.withoutNulls,
   );
 
@@ -111,12 +119,13 @@ class CategoriesRecordDocumentEquality implements Equality<CategoriesRecord> {
         e1?.description == e2?.description &&
         e1?.iconPath == e2?.iconPath &&
         e1?.color == e2?.color &&
-        e1?.value == e2?.value;
+        e1?.value == e2?.value &&
+        e1?.order == e2?.order;
   }
 
   @override
-  int hash(CategoriesRecord? e) => const ListEquality()
-      .hash([e?.name, e?.description, e?.iconPath, e?.color, e?.value]);
+  int hash(CategoriesRecord? e) => const ListEquality().hash(
+      [e?.name, e?.description, e?.iconPath, e?.color, e?.value, e?.order]);
 
   @override
   bool isValidKey(Object? o) => o is CategoriesRecord;

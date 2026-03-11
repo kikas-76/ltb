@@ -17,14 +17,6 @@ class CreateListingNom1Model extends FlutterFlowModel<CreateListingNom1Widget> {
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.
   ListingsRecord? createdListing;
-  // State field(s) for PageView widget.
-  PageController? pageViewController;
-
-  int get pageViewCurrentIndex => pageViewController != null &&
-          pageViewController!.hasClients &&
-          pageViewController!.page != null
-      ? pageViewController!.page!.round()
-      : 0;
 
   @override
   void initState(BuildContext context) {}

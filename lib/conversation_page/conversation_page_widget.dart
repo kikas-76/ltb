@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'conversation_page_model.dart';
 export 'conversation_page_model.dart';
@@ -61,10 +62,9 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
+                child: SpinKitThreeBounce(
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 50.0,
                 ),
               ),
             ),
@@ -110,12 +110,10 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                       child: SizedBox(
                                         width: 50.0,
                                         height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
+                                        child: SpinKitThreeBounce(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 50.0,
                                         ),
                                       ),
                                     );
@@ -161,15 +159,12 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                                   child: SizedBox(
                                                     width: 50.0,
                                                     height: 50.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      valueColor:
-                                                          AlwaysStoppedAnimation<
-                                                              Color>(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                      ),
+                                                    child: SpinKitThreeBounce(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      size: 50.0,
                                                     ),
                                                   ),
                                                 );
@@ -227,14 +222,11 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                                           width: 50.0,
                                                           height: 50.0,
                                                           child:
-                                                              CircularProgressIndicator(
-                                                            valueColor:
-                                                                AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primary,
-                                                            ),
+                                                              SpinKitThreeBounce(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            size: 50.0,
                                                           ),
                                                         ),
                                                       );
@@ -332,12 +324,10 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                       child: SizedBox(
                                         width: 50.0,
                                         height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
+                                        child: SpinKitThreeBounce(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 50.0,
                                         ),
                                       ),
                                     );
@@ -434,9 +424,13 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                               Text(
                                                 valueOrDefault<String>(
                                                   dateTimeFormat(
-                                                      "MMMEd",
-                                                      conversationPageBookingsRecord
-                                                          .startDate),
+                                                    "MMMEd",
+                                                    conversationPageBookingsRecord
+                                                        .startDate,
+                                                    locale: FFLocalizations.of(
+                                                            context)
+                                                        .languageCode,
+                                                  ),
                                                   'Start date',
                                                 ),
                                                 style:
@@ -457,9 +451,13 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                               Text(
                                                 valueOrDefault<String>(
                                                   dateTimeFormat(
-                                                      "MMMEd",
-                                                      conversationPageBookingsRecord
-                                                          .endDate),
+                                                    "MMMEd",
+                                                    conversationPageBookingsRecord
+                                                        .endDate,
+                                                    locale: FFLocalizations.of(
+                                                            context)
+                                                        .languageCode,
+                                                  ),
                                                   'End date',
                                                 ),
                                                 style:
@@ -570,10 +568,10 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                   child: SizedBox(
                                     width: 50.0,
                                     height: 50.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        FlutterFlowTheme.of(context).primary,
-                                      ),
+                                    child: SpinKitThreeBounce(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      size: 50.0,
                                     ),
                                   ),
                                 );
@@ -600,12 +598,11 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                           child: SizedBox(
                                             width: 50.0,
                                             height: 50.0,
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                              ),
+                                            child: SpinKitThreeBounce(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 50.0,
                                             ),
                                           ),
                                         );
@@ -701,9 +698,16 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                                                         5.0),
                                                             child: Text(
                                                               dateTimeFormat(
-                                                                  "Hm",
-                                                                  listViewMessagesRecord
-                                                                      .dateTime!),
+                                                                "Hm",
+                                                                listViewMessagesRecord
+                                                                    .dateTime!,
+                                                                locale: FFLocalizations.of(
+                                                                            context)
+                                                                        .languageShortCode ??
+                                                                    FFLocalizations.of(
+                                                                            context)
+                                                                        .languageCode,
+                                                              ),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -830,9 +834,16 @@ class _ConversationPageWidgetState extends State<ConversationPageWidget> {
                                                                           2.0),
                                                               child: Text(
                                                                 dateTimeFormat(
-                                                                    "Hm",
-                                                                    listViewMessagesRecord
-                                                                        .dateTime!),
+                                                                  "Hm",
+                                                                  listViewMessagesRecord
+                                                                      .dateTime!,
+                                                                  locale: FFLocalizations.of(
+                                                                              context)
+                                                                          .languageShortCode ??
+                                                                      FFLocalizations.of(
+                                                                              context)
+                                                                          .languageCode,
+                                                                ),
                                                                 textAlign:
                                                                     TextAlign
                                                                         .end,

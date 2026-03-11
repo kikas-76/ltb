@@ -20,15 +20,21 @@ class FFAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  DateTime? _tempStartDate;
+  DateTime? _tempStartDate = DateTime.fromMillisecondsSinceEpoch(946681200000);
   DateTime? get tempStartDate => _tempStartDate;
   set tempStartDate(DateTime? value) {
     _tempStartDate = value;
   }
 
-  DateTime? _tempEndDate;
+  DateTime? _tempEndDate = DateTime.fromMillisecondsSinceEpoch(946681200000);
   DateTime? get tempEndDate => _tempEndDate;
   set tempEndDate(DateTime? value) {
     _tempEndDate = value;
+  }
+
+  bool _datesSelected = false;
+  bool get datesSelected => _datesSelected;
+  set datesSelected(bool value) {
+    _datesSelected = value;
   }
 }

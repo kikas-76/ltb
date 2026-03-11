@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'objetsprsdechezvous_page_model.dart';
 export 'objetsprsdechezvous_page_model.dart';
@@ -124,10 +125,9 @@ class _ObjetsprsdechezvousPageWidgetState
                           child: SizedBox(
                             width: 50.0,
                             height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
-                              ),
+                            child: SpinKitThreeBounce(
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 50.0,
                             ),
                           ),
                         );

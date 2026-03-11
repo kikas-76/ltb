@@ -75,6 +75,11 @@ class UsersRecord extends FirestoreRecord {
   LocationDataStruct get locationData => _locationData ?? LocationDataStruct();
   bool hasLocationData() => _locationData != null;
 
+  // "saved_listings" field.
+  List<DocumentReference>? _savedListings;
+  List<DocumentReference> get savedListings => _savedListings ?? const [];
+  bool hasSavedListings() => _savedListings != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -90,6 +95,7 @@ class UsersRecord extends FirestoreRecord {
     _locationData = snapshotData['location_data'] is LocationDataStruct
         ? snapshotData['location_data']
         : LocationDataStruct.maybeFromMap(snapshotData['location_data']);
+    _savedListings = getDataList(snapshotData['saved_listings']);
   }
 
   static CollectionReference get collection =>
@@ -167,6 +173,7 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
 
   @override
   bool equals(UsersRecord? e1, UsersRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.email == e2?.email &&
         e1?.displayName == e2?.displayName &&
         e1?.photoUrl == e2?.photoUrl &&
@@ -178,7 +185,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.lastActiveTime == e2?.lastActiveTime &&
         e1?.role == e2?.role &&
         e1?.title == e2?.title &&
-        e1?.locationData == e2?.locationData;
+        e1?.locationData == e2?.locationData &&
+        listEquality.equals(e1?.savedListings, e2?.savedListings);
   }
 
   @override
@@ -194,7 +202,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.lastActiveTime,
         e?.role,
         e?.title,
-        e?.locationData
+        e?.locationData,
+        e?.savedListings
       ]);
 
   @override

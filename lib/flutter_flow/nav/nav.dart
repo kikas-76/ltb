@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
@@ -131,6 +132,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ListingsPageWidget.routeName,
           path: ListingsPageWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => ListingsPageWidget(
             listingsRef: params.getParam(
               'listingsRef',
@@ -139,11 +141,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['listings'],
             ),
           ),
-        ),
-        FFRoute(
-          name: CreateListingWidget.routeName,
-          path: CreateListingWidget.routePath,
-          builder: (context, params) => CreateListingWidget(),
         ),
         FFRoute(
           name: ProfilePageWidget.routeName,
@@ -264,7 +261,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: CreateListingprix4Widget.routeName,
           path: CreateListingprix4Widget.routePath,
-          builder: (context, params) => CreateListingprix4Widget(),
+          builder: (context, params) => CreateListingprix4Widget(
+            listingRef: params.getParam(
+              'listingRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['listings'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: OwnerProfilePageWidget.routeName,
+          path: OwnerProfilePageWidget.routePath,
+          builder: (context, params) => OwnerProfilePageWidget(
+            ownerRef: params.getParam(
+              'ownerRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['users'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -455,10 +471,9 @@ class FFRoute {
                   child: SizedBox(
                     width: 50.0,
                     height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
+                    child: SpinKitThreeBounce(
+                      color: FlutterFlowTheme.of(context).primary,
+                      size: 50.0,
                     ),
                   ),
                 )
@@ -468,6 +483,7 @@ class FFRoute {
           return transitionInfo.hasTransition
               ? CustomTransitionPage(
                   key: state.pageKey,
+                  name: state.name,
                   child: child,
                   transitionDuration: transitionInfo.duration,
                   transitionsBuilder:
@@ -485,7 +501,8 @@ class FFRoute {
                     child,
                   ),
                 )
-              : MaterialPage(key: state.pageKey, child: child);
+              : MaterialPage(
+                  key: state.pageKey, name: state.name, child: child);
         },
         routes: routes,
       );

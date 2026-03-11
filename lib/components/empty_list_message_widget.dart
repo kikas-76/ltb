@@ -42,7 +42,7 @@ class _EmptyListMessageWidgetState extends State<EmptyListMessageWidget> {
       children: [
         Icon(
           Icons.message,
-          color: FlutterFlowTheme.of(context).secondaryText,
+          color: FlutterFlowTheme.of(context).primary,
           size: 72.0,
         ),
         Padding(
@@ -60,7 +60,8 @@ class _EmptyListMessageWidgetState extends State<EmptyListMessageWidget> {
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
           child: Text(
-            'It seems that you don\'t have any recent activity.',
+            'Il semblerait que vous n\'ayez pas eu d\'activité récente.',
+            textAlign: TextAlign.center,
             style: FlutterFlowTheme.of(context).labelMedium.override(
                   fontFamily: FlutterFlowTheme.of(context).labelMediumFamily,
                   letterSpacing: 0.0,

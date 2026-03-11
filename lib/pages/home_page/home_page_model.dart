@@ -1,9 +1,7 @@
-import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'home_page_widget.dart' show HomePageWidget;
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   ///  State fields for stateful widgets in this page.
@@ -12,11 +10,14 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   FocusNode? searchFieldFocusNode;
   TextEditingController? searchFieldTextController;
   String? Function(BuildContext, String?)? searchFieldTextControllerValidator;
-  // State field(s) for GridView widget.
+  // State field(s) for PageView widget.
+  PageController? pageViewController;
 
-  PagingController<DocumentSnapshot?, ListingsRecord>? gridViewPagingController;
-  Query? gridViewPagingQuery;
-  List<StreamSubscription?> gridViewStreamSubscriptions = [];
+  int get pageViewCurrentIndex => pageViewController != null &&
+          pageViewController!.hasClients &&
+          pageViewController!.page != null
+      ? pageViewController!.page!.round()
+      : 0;
 
   @override
   void initState(BuildContext context) {}
@@ -25,40 +26,5 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   void dispose() {
     searchFieldFocusNode?.dispose();
     searchFieldTextController?.dispose();
-
-    gridViewStreamSubscriptions.forEach((s) => s?.cancel());
-    gridViewPagingController?.dispose();
-  }
-
-  /// Additional helper methods.
-  PagingController<DocumentSnapshot?, ListingsRecord> setGridViewController(
-    Query query, {
-    DocumentReference<Object?>? parent,
-  }) {
-    gridViewPagingController ??= _createGridViewController(query, parent);
-    if (gridViewPagingQuery != query) {
-      gridViewPagingQuery = query;
-      gridViewPagingController?.refresh();
-    }
-    return gridViewPagingController!;
-  }
-
-  PagingController<DocumentSnapshot?, ListingsRecord> _createGridViewController(
-    Query query,
-    DocumentReference<Object?>? parent,
-  ) {
-    final controller =
-        PagingController<DocumentSnapshot?, ListingsRecord>(firstPageKey: null);
-    return controller
-      ..addPageRequestListener(
-        (nextPageMarker) => queryListingsRecordPage(
-          queryBuilder: (_) => gridViewPagingQuery ??= query,
-          nextPageMarker: nextPageMarker,
-          streamSubscriptions: gridViewStreamSubscriptions,
-          controller: controller,
-          pageSize: 25,
-          isStream: true,
-        ),
-      );
   }
 }

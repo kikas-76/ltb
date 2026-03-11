@@ -7,8 +7,6 @@ export '/auth/onboarding/onboarding_widget.dart' show OnboardingWidget;
 export '/auth/connexion/connexion_widget.dart' show ConnexionWidget;
 export '/pages/categorie/categorie_widget.dart' show CategorieWidget;
 export '/pages/listings_page/listings_page_widget.dart' show ListingsPageWidget;
-export '/pages/create_listing/create_listing_widget.dart'
-    show CreateListingWidget;
 export '/profile_page/profile_page_widget.dart' show ProfilePageWidget;
 export '/edit_profile/edit_profile_widget.dart' show EditProfileWidget;
 export '/pages/objetsprsdechezvous_page/objetsprsdechezvous_page_widget.dart'
@@ -30,7 +28,9 @@ export '/create_listing/create_listing_image2/create_listing_image2_widget.dart'
     show CreateListingImage2Widget;
 export '/create_listing/create_listing_nom1/create_listing_nom1_widget.dart'
     show CreateListingNom1Widget;
-export '/pages/create_listing_category3/create_listing_category3_widget.dart'
+export '/create_listing/create_listing_category3/create_listing_category3_widget.dart'
     show CreateListingCategory3Widget;
-export '/pages/create_listingprix4/create_listingprix4_widget.dart'
+export '/create_listing/create_listingprix4/create_listingprix4_widget.dart'
     show CreateListingprix4Widget;
+export '/owner_profile_page/owner_profile_page_widget.dart'
+    show OwnerProfilePageWidget;

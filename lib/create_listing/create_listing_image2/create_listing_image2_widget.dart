@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -84,13 +85,15 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.asset(
                       'assets/images/copie_logo_ltb_tranparent.png',
-                      width: 150.0,
-                      height: 150.0,
+                      width: 180.0,
+                      height: 180.0,
                       fit: BoxFit.cover,
                     ),
                   ),
                   centerTitle: true,
                   expandedTitleScale: 1.0,
+                  titlePadding:
+                      EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                 ),
                 elevation: 3.0,
               ),
@@ -145,7 +148,7 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                                 Align(
                                   alignment: AlignmentDirectional(-1.0, 1.0),
                                   child: Text(
-                                    'Ajoutez des photos (Étape 2 sur 4)',
+                                    'Ajoutez des photos ',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyLarge
                                         .override(
@@ -313,10 +316,20 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                                               }
                                             }
 
-                                            _model.addToUploadedPhotos(_model
+                                            _model.uploadedPhotos = _model
                                                 .uploadedFileUrls_uploadDataaVkv
-                                                .firstOrNull!);
+                                                .toList()
+                                                .cast<String>();
                                             safeSetState(() {});
+
+                                            await widget.listingRef!.update({
+                                              ...mapToFirestore(
+                                                {
+                                                  'photos_url':
+                                                      _model.uploadedPhotos,
+                                                },
+                                              ),
+                                            });
                                           },
                                     text: 'Ajouter des photos',
                                     options: FFButtonOptions(
@@ -610,12 +623,12 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                                           !FlutterFlowTheme.of(context)
                                               .titleSmallIsCustom,
                                     ),
-                                elevation: 3.0,
+                                elevation: 5.0,
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(16.0),
                                 disabledColor:
                                     FlutterFlowTheme.of(context).alternate,
                               ),
@@ -627,14 +640,14 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                             child: Text(
                               'Vous pourrez modifier les photos plus tard',
                               style: FlutterFlowTheme.of(context)
-                                  .labelMedium
+                                  .labelSmall
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
-                                        .labelMediumFamily,
+                                        .labelSmallFamily,
                                     letterSpacing: 0.0,
                                     useGoogleFonts:
                                         !FlutterFlowTheme.of(context)
-                                            .labelMediumIsCustom,
+                                            .labelSmallIsCustom,
                                   ),
                             ),
                           ),

@@ -67,6 +67,21 @@ class ListingsRecord extends FirestoreRecord {
   LatLng? get location => _location;
   bool hasLocation() => _location != null;
 
+  // "deposit_amount" field.
+  double? _depositAmount;
+  double get depositAmount => _depositAmount ?? 0.0;
+  bool hasDepositAmount() => _depositAmount != null;
+
+  // "platform_fee_owner" field.
+  double? _platformFeeOwner;
+  double get platformFeeOwner => _platformFeeOwner ?? 0.0;
+  bool hasPlatformFeeOwner() => _platformFeeOwner != null;
+
+  // "owner_type" field.
+  String? _ownerType;
+  String get ownerType => _ownerType ?? '';
+  bool hasOwnerType() => _ownerType != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
@@ -80,6 +95,9 @@ class ListingsRecord extends FirestoreRecord {
         : LocationDataStruct.maybeFromMap(snapshotData['location_data']);
     _categoryRef = snapshotData['category_ref'] as DocumentReference?;
     _location = snapshotData['location'] as LatLng?;
+    _depositAmount = castToType<double>(snapshotData['deposit_amount']);
+    _platformFeeOwner = castToType<double>(snapshotData['platform_fee_owner']);
+    _ownerType = snapshotData['owner_type'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -140,6 +158,17 @@ class ListingsRecord extends FirestoreRecord {
             ParamType.LatLng,
             false,
           ),
+          'deposit_amount': convertAlgoliaParam(
+            snapshot.data['deposit_amount'],
+            ParamType.double,
+            false,
+          ),
+          'platform_fee_owner': convertAlgoliaParam(
+            snapshot.data['platform_fee_owner'],
+            ParamType.double,
+            false,
+          ),
+          'owner_type': snapshot.data['owner_type'],
         },
         ListingsRecord.collection.doc(snapshot.objectID),
       );
@@ -185,6 +214,9 @@ Map<String, dynamic> createListingsRecordData({
   LocationDataStruct? locationData,
   DocumentReference? categoryRef,
   LatLng? location,
+  double? depositAmount,
+  double? platformFeeOwner,
+  String? ownerType,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -197,6 +229,9 @@ Map<String, dynamic> createListingsRecordData({
       'location_data': LocationDataStruct().toMap(),
       'category_ref': categoryRef,
       'location': location,
+      'deposit_amount': depositAmount,
+      'platform_fee_owner': platformFeeOwner,
+      'owner_type': ownerType,
     }.withoutNulls,
   );
 
@@ -221,7 +256,10 @@ class ListingsRecordDocumentEquality implements Equality<ListingsRecord> {
         listEquality.equals(e1?.photosUrl, e2?.photosUrl) &&
         e1?.locationData == e2?.locationData &&
         e1?.categoryRef == e2?.categoryRef &&
-        e1?.location == e2?.location;
+        e1?.location == e2?.location &&
+        e1?.depositAmount == e2?.depositAmount &&
+        e1?.platformFeeOwner == e2?.platformFeeOwner &&
+        e1?.ownerType == e2?.ownerType;
   }
 
   @override
@@ -235,7 +273,10 @@ class ListingsRecordDocumentEquality implements Equality<ListingsRecord> {
         e?.photosUrl,
         e?.locationData,
         e?.categoryRef,
-        e?.location
+        e?.location,
+        e?.depositAmount,
+        e?.platformFeeOwner,
+        e?.ownerType
       ]);
 
   @override
