@@ -117,14 +117,16 @@ class _ConnexionWidgetState extends State<ConnexionWidget>
               top: true,
               child: Stack(
                 children: [
-                  Container(
-                    width: double.infinity,
-                    height: 100.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primaryBackground,
-                      borderRadius: BorderRadius.circular(16.0),
+                  SafeArea(
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primaryBackground,
+                        borderRadius: BorderRadius.circular(16.0),
+                      ),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                     ),
-                    alignment: AlignmentDirectional(0.0, 0.0),
                   ),
                   Align(
                     alignment: AlignmentDirectional(0.0, 1.0),
@@ -537,7 +539,7 @@ class _ConnexionWidgetState extends State<ConnexionWidget>
                                               }
 
                                               context.pushNamedAuth(
-                                                  AdressPageWidget.routeName,
+                                                  HomePageWidget.routeName,
                                                   context.mounted);
                                             },
                                             text: 'Continuer',
@@ -598,7 +600,7 @@ class _ConnexionWidgetState extends State<ConnexionWidget>
                                               }
 
                                               context.pushNamedAuth(
-                                                  AdressPageWidget.routeName,
+                                                  HomePageWidget.routeName,
                                                   context.mounted);
                                             },
                                             text: 'Continuer avec Google',

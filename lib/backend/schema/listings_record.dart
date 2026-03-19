@@ -82,6 +82,11 @@ class ListingsRecord extends FirestoreRecord {
   String get ownerType => _ownerType ?? '';
   bool hasOwnerType() => _ownerType != null;
 
+  // "category_name" field.
+  String? _categoryName;
+  String get categoryName => _categoryName ?? '';
+  bool hasCategoryName() => _categoryName != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
@@ -98,6 +103,7 @@ class ListingsRecord extends FirestoreRecord {
     _depositAmount = castToType<double>(snapshotData['deposit_amount']);
     _platformFeeOwner = castToType<double>(snapshotData['platform_fee_owner']);
     _ownerType = snapshotData['owner_type'] as String?;
+    _categoryName = snapshotData['category_name'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -169,6 +175,7 @@ class ListingsRecord extends FirestoreRecord {
             false,
           ),
           'owner_type': snapshot.data['owner_type'],
+          'category_name': snapshot.data['category_name'],
         },
         ListingsRecord.collection.doc(snapshot.objectID),
       );
@@ -217,6 +224,7 @@ Map<String, dynamic> createListingsRecordData({
   double? depositAmount,
   double? platformFeeOwner,
   String? ownerType,
+  String? categoryName,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -232,6 +240,7 @@ Map<String, dynamic> createListingsRecordData({
       'deposit_amount': depositAmount,
       'platform_fee_owner': platformFeeOwner,
       'owner_type': ownerType,
+      'category_name': categoryName,
     }.withoutNulls,
   );
 
@@ -259,7 +268,8 @@ class ListingsRecordDocumentEquality implements Equality<ListingsRecord> {
         e1?.location == e2?.location &&
         e1?.depositAmount == e2?.depositAmount &&
         e1?.platformFeeOwner == e2?.platformFeeOwner &&
-        e1?.ownerType == e2?.ownerType;
+        e1?.ownerType == e2?.ownerType &&
+        e1?.categoryName == e2?.categoryName;
   }
 
   @override
@@ -276,7 +286,8 @@ class ListingsRecordDocumentEquality implements Equality<ListingsRecord> {
         e?.location,
         e?.depositAmount,
         e?.platformFeeOwner,
-        e?.ownerType
+        e?.ownerType,
+        e?.categoryName
       ]);
 
   @override

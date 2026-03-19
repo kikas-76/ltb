@@ -9,6 +9,8 @@ class CreateListingCategory3Model
 
   DocumentReference? selectedCategoryRef;
 
+  String? selectedCategoryName;
+
   @override
   void initState(BuildContext context) {}
 

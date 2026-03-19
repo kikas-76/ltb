@@ -37,4 +37,22 @@ class FFAppState extends ChangeNotifier {
   set datesSelected(bool value) {
     _datesSelected = value;
   }
+
+  String _filterOwnerType = '';
+  String get filterOwnerType => _filterOwnerType;
+  set filterOwnerType(String value) {
+    _filterOwnerType = value;
+  }
+
+  double _filterPriceMin = 0.0;
+  double get filterPriceMin => _filterPriceMin;
+  set filterPriceMin(double value) {
+    _filterPriceMin = value;
+  }
+
+  double _filterPriceMax = 99999.0;
+  double get filterPriceMax => _filterPriceMax;
+  set filterPriceMax(double value) {
+    _filterPriceMax = value;
+  }
 }

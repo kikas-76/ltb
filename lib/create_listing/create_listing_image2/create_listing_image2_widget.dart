@@ -7,6 +7,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'create_listing_image2_model.dart';
 export 'create_listing_image2_model.dart';
@@ -15,9 +16,11 @@ class CreateListingImage2Widget extends StatefulWidget {
   const CreateListingImage2Widget({
     super.key,
     required this.listingRef,
+    this.editListingDoc,
   });
 
   final DocumentReference? listingRef;
+  final ListingsRecord? editListingDoc;
 
   static String routeName = 'CreateListingImage2';
   static String routePath = '/createListingImage2';
@@ -36,6 +39,15 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => CreateListingImage2Model());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (widget.editListingDoc != null) {
+        _model.uploadedPhotos =
+            widget.editListingDoc!.photosUrl.toList().cast<String>();
+        safeSetState(() {});
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -60,43 +72,40 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(40.0),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 30.0,
-                  borderWidth: 1.0,
-                  buttonSize: 60.0,
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    size: 30.0,
-                  ),
-                  onPressed: () async {
-                    context.pop();
-                  },
+            appBar: AppBar(
+              backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+              automaticallyImplyLeading: false,
+              leading: FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30.0,
+                borderWidth: 1.0,
+                buttonSize: 60.0,
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  size: 30.0,
                 ),
-                actions: [],
-                flexibleSpace: FlexibleSpaceBar(
-                  title: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/images/copie_logo_ltb_tranparent.png',
-                      width: 180.0,
-                      height: 180.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  centerTitle: true,
-                  expandedTitleScale: 1.0,
-                  titlePadding:
-                      EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                ),
-                elevation: 3.0,
+                onPressed: () async {
+                  context.pop();
+                },
               ),
+              actions: [],
+              flexibleSpace: FlexibleSpaceBar(
+                title: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    'assets/images/copie_logo_ltb_tranparent.png',
+                    width: 180.0,
+                    height: 180.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                centerTitle: true,
+                expandedTitleScale: 1.0,
+                titlePadding:
+                    EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+              ),
+              elevation: 3.0,
             ),
             body: Stack(
               children: [
@@ -500,8 +509,7 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                         Expanded(
                           child: Builder(
                             builder: (context) {
-                              final uploadedPhoto = _model
-                                  .uploadedFileUrls_uploadDataaVkv
+                              final uploadedPhoto = _model.uploadedPhotos
                                   .toList()
                                   .take(10)
                                   .toList();
@@ -600,7 +608,15 @@ class _CreateListingImage2WidgetState extends State<CreateListingImage2Widget> {
                                             widget.listingRef,
                                             ParamType.DocumentReference,
                                           ),
+                                          'editListingDoc': serializeParam(
+                                            widget.editListingDoc,
+                                            ParamType.Document,
+                                          ),
                                         }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          'editListingDoc':
+                                              widget.editListingDoc,
+                                        },
                                       );
                                     },
                               text: 'Étape Suivante',

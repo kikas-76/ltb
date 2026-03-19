@@ -60,6 +60,11 @@ class BookingsRecord extends FirestoreRecord {
   double get totalPrice => _totalPrice ?? 0.0;
   bool hasTotalPrice() => _totalPrice != null;
 
+  // "owner_ref" field.
+  DocumentReference? _ownerRef;
+  DocumentReference? get ownerRef => _ownerRef;
+  bool hasOwnerRef() => _ownerRef != null;
+
   void _initializeFields() {
     _status = snapshotData['status'] as String?;
     _listingRef = snapshotData['listing_ref'] as DocumentReference?;
@@ -70,6 +75,7 @@ class BookingsRecord extends FirestoreRecord {
     _lastMessage = snapshotData['last_message'] as String?;
     _participants = getDataList(snapshotData['participants']);
     _totalPrice = castToType<double>(snapshotData['total_price']);
+    _ownerRef = snapshotData['owner_ref'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -115,6 +121,7 @@ Map<String, dynamic> createBookingsRecordData({
   DateTime? createdAt,
   String? lastMessage,
   double? totalPrice,
+  DocumentReference? ownerRef,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -126,6 +133,7 @@ Map<String, dynamic> createBookingsRecordData({
       'created_at': createdAt,
       'last_message': lastMessage,
       'total_price': totalPrice,
+      'owner_ref': ownerRef,
     }.withoutNulls,
   );
 
@@ -146,7 +154,8 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e1?.createdAt == e2?.createdAt &&
         e1?.lastMessage == e2?.lastMessage &&
         listEquality.equals(e1?.participants, e2?.participants) &&
-        e1?.totalPrice == e2?.totalPrice;
+        e1?.totalPrice == e2?.totalPrice &&
+        e1?.ownerRef == e2?.ownerRef;
   }
 
   @override
@@ -159,7 +168,8 @@ class BookingsRecordDocumentEquality implements Equality<BookingsRecord> {
         e?.createdAt,
         e?.lastMessage,
         e?.participants,
-        e?.totalPrice
+        e?.totalPrice,
+        e?.ownerRef
       ]);
 
   @override

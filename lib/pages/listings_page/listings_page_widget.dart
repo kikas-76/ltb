@@ -1,6 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/bottom_sheet_dates_widget.dart';
+import '/component/bottom_sheet_dates/bottom_sheet_dates_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -1903,43 +1903,93 @@ class _ListingsPageWidgetState extends State<ListingsPageWidget> {
                                               ? null
                                               : () async {
                                                   if (_model.existingBooking) {
+                                                    context.pushNamed(
+                                                      ConversationPageWidget
+                                                          .routeName,
+                                                      queryParameters: {
+                                                        'bookingRef':
+                                                            serializeParam(
+                                                          _model.currentBooking
+                                                              ?.reference,
+                                                          ParamType
+                                                              .DocumentReference,
+                                                        ),
+                                                      }.withoutNulls,
+                                                    );
                                                   } else {
                                                     var bookingsRecordReference =
                                                         BookingsRecord
                                                             .collection
                                                             .doc();
                                                     await bookingsRecordReference
-                                                        .set(
-                                                            createBookingsRecordData(
-                                                      listingRef:
-                                                          widget.listingsRef,
-                                                      renterRef:
-                                                          currentUserReference,
-                                                      startDate: FFAppState()
-                                                          .tempStartDate,
-                                                      endDate: FFAppState()
-                                                          .tempEndDate,
-                                                      createdAt:
-                                                          getCurrentTimestamp,
-                                                      status: 'pending',
-                                                    ));
-                                                    _model.newBooking = BookingsRecord
-                                                        .getDocumentFromData(
-                                                            createBookingsRecordData(
-                                                              listingRef: widget
-                                                                  .listingsRef,
-                                                              renterRef:
-                                                                  currentUserReference,
-                                                              startDate:
-                                                                  FFAppState()
-                                                                      .tempStartDate,
-                                                              endDate: FFAppState()
-                                                                  .tempEndDate,
-                                                              createdAt:
-                                                                  getCurrentTimestamp,
-                                                              status: 'pending',
-                                                            ),
-                                                            bookingsRecordReference);
+                                                        .set({
+                                                      ...createBookingsRecordData(
+                                                        listingRef:
+                                                            widget.listingsRef,
+                                                        renterRef:
+                                                            currentUserReference,
+                                                        startDate: FFAppState()
+                                                            .tempStartDate,
+                                                        endDate: FFAppState()
+                                                            .tempEndDate,
+                                                        createdAt:
+                                                            getCurrentTimestamp,
+                                                        status: 'pending',
+                                                        ownerRef:
+                                                            listingsPageListingsRecord
+                                                                .ownerRef,
+                                                        totalPrice: functions
+                                                            .calculateTotalPriceFromDates(
+                                                                listingsPageListingsRecord
+                                                                    .price,
+                                                                FFAppState()
+                                                                    .tempStartDate,
+                                                                FFAppState()
+                                                                    .tempEndDate),
+                                                      ),
+                                                      ...mapToFirestore(
+                                                        {
+                                                          'participants': [
+                                                            currentUserReference
+                                                          ],
+                                                        },
+                                                      ),
+                                                    });
+                                                    _model.newBooking =
+                                                        BookingsRecord
+                                                            .getDocumentFromData({
+                                                      ...createBookingsRecordData(
+                                                        listingRef:
+                                                            widget.listingsRef,
+                                                        renterRef:
+                                                            currentUserReference,
+                                                        startDate: FFAppState()
+                                                            .tempStartDate,
+                                                        endDate: FFAppState()
+                                                            .tempEndDate,
+                                                        createdAt:
+                                                            getCurrentTimestamp,
+                                                        status: 'pending',
+                                                        ownerRef:
+                                                            listingsPageListingsRecord
+                                                                .ownerRef,
+                                                        totalPrice: functions
+                                                            .calculateTotalPriceFromDates(
+                                                                listingsPageListingsRecord
+                                                                    .price,
+                                                                FFAppState()
+                                                                    .tempStartDate,
+                                                                FFAppState()
+                                                                    .tempEndDate),
+                                                      ),
+                                                      ...mapToFirestore(
+                                                        {
+                                                          'participants': [
+                                                            currentUserReference
+                                                          ],
+                                                        },
+                                                      ),
+                                                    }, bookingsRecordReference);
 
                                                     await MyBookingsRecord
                                                             .createDoc(

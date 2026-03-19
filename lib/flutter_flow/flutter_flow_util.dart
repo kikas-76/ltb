@@ -12,12 +12,12 @@ import 'package:intl/intl.dart';
 import 'package:json_path/json_path.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:map_launcher/map_launcher.dart';
 
 import '../main.dart';
 
 import 'lat_lng.dart';
 
+export 'keep_alive_wrapper.dart';
 export 'lat_lng.dart';
 export 'place.dart';
 export 'uploaded_file.dart';
@@ -66,34 +66,6 @@ Color colorFromCssString(String color, {Color? defaultColor}) {
     return fromCssColor(color);
   } catch (_) {}
   return defaultColor ?? Colors.black;
-}
-
-Future launchMap({
-  MapType? mapType,
-  LatLng? location,
-  String? address,
-  required title,
-}) async {
-  final coords = location != null
-      ? Coords(location.latitude, location.longitude)
-      : Coords(0, 0);
-  final extraParams = address != null ? {'q': address} : null;
-  final noMap =
-      mapType == null || !(await MapLauncher.isMapAvailable(mapType) ?? false);
-  if (noMap) {
-    final installedMaps = await MapLauncher.installedMaps;
-    return installedMaps.first.showMarker(
-      coords: coords,
-      title: title,
-      extraParams: extraParams,
-    );
-  }
-  return MapLauncher.showMarker(
-    mapType: mapType,
-    coords: coords,
-    title: title,
-    extraParams: extraParams,
-  );
 }
 
 enum FormatType {

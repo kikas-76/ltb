@@ -45,39 +45,85 @@ double? calculateOwnerNet(
   double? basePricePerDay,
   int? days,
 ) {
-// 1. Sécurité anti-crash : si un champ est vide ou à zéro, on renvoie 0
-  if (basePricePerDay == null ||
-      days == null ||
-      days <= 0 ||
-      basePricePerDay <= 0) {
-    return 0.0;
+  double? calculateOwnerNet(
+    double? basePricePerDay,
+    DateTime? startDate,
+    DateTime? endDate,
+  ) {
+    // 1. Sécurité anti-crash
+    if (basePricePerDay == null ||
+        startDate == null ||
+        endDate == null ||
+        basePricePerDay <= 0) {
+      return 0.0;
+    }
+
+    // 2. Calcul du nombre de jours
+    int days = endDate.difference(startDate).inDays;
+    if (days <= 0) return 0.0;
+
+    // 3. Détermination du taux de réduction
+    double discountRate = 0.0;
+    if (days >= 7) {
+      discountRate = 0.20;
+    } else if (days >= 3) {
+      discountRate = 0.10;
+    }
+
+    // 4. Calcul du prix brut total
+    double discountedDailyPrice = basePricePerDay * (1 - discountRate);
+    double totalGrossRevenue = discountedDailyPrice * days;
+
+    // 5. Commission plateforme (10%, min 1.25€)
+    double platformCommission = totalGrossRevenue * 0.10;
+    if (platformCommission < 1.25) {
+      platformCommission = 1.25;
+    }
+
+    // 6. Revenu net
+    return double.parse(
+        (totalGrossRevenue - platformCommission).toStringAsFixed(2));
   }
+}
 
-  // 2. Détermination du taux de réduction (La dégressivité)
-  double discountRate = 0.0;
-  if (days >= 7) {
-    discountRate = 0.20; // -20% pour une semaine ou plus
-  } else if (days >= 3) {
-    discountRate = 0.10; // -10% pour 3 à 6 jours
+double? calculateTotalPriceFromDates(
+  double? basePricePerDay,
+  DateTime? startDate,
+  DateTime? endDate,
+) {
+  double? calculateOwnerNetFromDates(
+    double? basePricePerDay,
+    DateTime? startDate,
+    DateTime? endDate,
+  ) {
+    if (basePricePerDay == null ||
+        startDate == null ||
+        endDate == null ||
+        basePricePerDay <= 0) {
+      return 0.0;
+    }
+
+    int days = endDate.difference(startDate).inDays;
+    if (days <= 0) return 0.0;
+
+    double discountRate = 0.0;
+    if (days >= 7) {
+      discountRate = 0.20;
+    } else if (days >= 3) {
+      discountRate = 0.10;
+    }
+
+    double discountedDailyPrice = basePricePerDay * (1 - discountRate);
+    double totalGrossRevenue = discountedDailyPrice * days;
+
+    double platformCommission = totalGrossRevenue * 0.10;
+    if (platformCommission < 1.25) {
+      platformCommission = 1.25;
+    }
+
+    return double.parse(
+        (totalGrossRevenue - platformCommission).toStringAsFixed(2));
   }
-
-  // 3. Calcul du prix brut total (Ce que le locataire va payer)
-  double discountedDailyPrice = basePricePerDay * (1 - discountRate);
-  double totalGrossRevenue = discountedDailyPrice * days;
-
-  // 4. Calcul de la commission de Louetonbien (10%)
-  double platformCommission = totalGrossRevenue * 0.10;
-
-  // 5. Application du plancher de sécurité (1,25 € minimum)
-  if (platformCommission < 1.25) {
-    platformCommission = 1.25;
-  }
-
-  // 6. Calcul final du revenu net du propriétaire
-  double netRevenue = totalGrossRevenue - platformCommission;
-
-  // 7. Arrondi strict à 2 décimales pour un affichage propre en euros
-  return double.parse(netRevenue.toStringAsFixed(2));
 }
 
 String calculateTotalPrice(
@@ -215,4 +261,44 @@ String? calculatePriceBeforeDiscount(
   }
 
   return null;
+}
+
+double? calculatePayout(double? totalPrice) {
+  String? calculatePayout(
+    double? totalPrice,
+  ) {
+    if (totalPrice == null || totalPrice <= 0) {
+      return '0';
+    }
+
+    double commission = totalPrice * 0.10;
+    if (commission < 1.25) {
+      commission = 1.25;
+    }
+
+    double payout = totalPrice - commission;
+    return payout.toStringAsFixed(2);
+  }
+}
+
+String? testCalcul(
+  double? price,
+  DateTime? start,
+  DateTime? end,
+) {
+  String? testCalcul2(
+    double? price,
+    DateTime? start,
+    DateTime? end,
+  ) {
+    try {
+      if (price == null) return 'price null';
+      if (start == null) return 'start null';
+      if (end == null) return 'end null';
+      int days = end.difference(start).inDays;
+      return 'price=$price days=$days';
+    } catch (e) {
+      return 'ERROR: ${e.toString()}';
+    }
+  }
 }

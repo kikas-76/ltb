@@ -7,23 +7,25 @@ export '/auth/onboarding/onboarding_widget.dart' show OnboardingWidget;
 export '/auth/connexion/connexion_widget.dart' show ConnexionWidget;
 export '/pages/categorie/categorie_widget.dart' show CategorieWidget;
 export '/pages/listings_page/listings_page_widget.dart' show ListingsPageWidget;
-export '/profile_page/profile_page_widget.dart' show ProfilePageWidget;
-export '/edit_profile/edit_profile_widget.dart' show EditProfileWidget;
+export '/settings_pages/profile_page/profile_page_widget.dart'
+    show ProfilePageWidget;
+export '/settings_pages/edit_profile/edit_profile_widget.dart'
+    show EditProfileWidget;
 export '/pages/objetsprsdechezvous_page/objetsprsdechezvous_page_widget.dart'
     show ObjetsprsdechezvousPageWidget;
-export '/search/search_widget.dart' show SearchWidget;
-export '/pages/messages/messages_widget.dart' show MessagesWidget;
-export '/my_listings/my_listings_widget.dart' show MyListingsWidget;
-export '/see_profile/see_profile_widget.dart' show SeeProfileWidget;
-export '/complete_your_profil/complete_your_profil_widget.dart'
+export '/pages/search/search_widget.dart' show SearchWidget;
+export '/messages/messages/messages_widget.dart' show MessagesWidget;
+export '/settings_pages/my_listings/my_listings_widget.dart'
+    show MyListingsWidget;
+export '/settings_pages/settings_profile/settings_profile_widget.dart'
+    show SettingsProfileWidget;
+export '/auth/complete_your_profil/complete_your_profil_widget.dart'
     show CompleteYourProfilWidget;
-export '/adress_page/adress_page_widget.dart' show AdressPageWidget;
+export '/settings_pages/adress_page/adress_page_widget.dart'
+    show AdressPageWidget;
 export '/test_page/test_page_widget.dart' show TestPageWidget;
-export '/conversation_page/conversation_page_widget.dart'
+export '/messages/conversation_page/conversation_page_widget.dart'
     show ConversationPageWidget;
-export '/navbar/navbar_widget.dart' show NavbarWidget;
-export '/my_listings_copy/my_listings_copy_widget.dart'
-    show MyListingsCopyWidget;
 export '/create_listing/create_listing_image2/create_listing_image2_widget.dart'
     show CreateListingImage2Widget;
 export '/create_listing/create_listing_nom1/create_listing_nom1_widget.dart'
@@ -32,5 +34,14 @@ export '/create_listing/create_listing_category3/create_listing_category3_widget
     show CreateListingCategory3Widget;
 export '/create_listing/create_listingprix4/create_listingprix4_widget.dart'
     show CreateListingprix4Widget;
-export '/owner_profile_page/owner_profile_page_widget.dart'
+export '/pages/owner_profile_page/owner_profile_page_widget.dart'
     show OwnerProfilePageWidget;
+export '/reportpage/reportpage_widget.dart' show ReportpageWidget;
+export '/offensantreport/offensantreport_widget.dart'
+    show OffensantreportWidget;
+export '/autrereport/autrereport_widget.dart' show AutrereportWidget;
+export '/dangerousreport/dangerousreport_widget.dart'
+    show DangerousreportWidget;
+export '/pubreport/pubreport_widget.dart' show PubreportWidget;
+export '/volreport/volreport_widget.dart' show VolreportWidget;
+export '/cgureport/cgureport_widget.dart' show CgureportWidget;

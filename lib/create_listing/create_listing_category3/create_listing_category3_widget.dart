@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'create_listing_category3_model.dart';
@@ -15,9 +16,11 @@ class CreateListingCategory3Widget extends StatefulWidget {
   const CreateListingCategory3Widget({
     super.key,
     required this.listingRef,
+    this.editListingDoc,
   });
 
   final DocumentReference? listingRef;
+  final ListingsRecord? editListingDoc;
 
   static String routeName = 'CreateListingCategory3';
   static String routePath = '/createListingCategory';
@@ -37,6 +40,15 @@ class _CreateListingCategory3WidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => CreateListingCategory3Model());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (widget.editListingDoc != null) {
+        _model.selectedCategoryRef = widget.editListingDoc?.categoryRef;
+        _model.selectedCategoryName = widget.editListingDoc?.categoryName;
+        safeSetState(() {});
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -85,45 +97,42 @@ class _CreateListingCategory3WidgetState
               child: Scaffold(
                 key: scaffoldKey,
                 backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-                appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(40.0),
-                  child: AppBar(
-                    backgroundColor:
-                        FlutterFlowTheme.of(context).primaryBackground,
-                    automaticallyImplyLeading: false,
-                    leading: FlutterFlowIconButton(
-                      borderRadius: 8.0,
-                      buttonSize: 40.0,
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 24.0,
-                      ),
-                      onPressed: () async {
-                        context.safePop();
-                      },
+                appBar: AppBar(
+                  backgroundColor:
+                      FlutterFlowTheme.of(context).primaryBackground,
+                  automaticallyImplyLeading: false,
+                  leading: FlutterFlowIconButton(
+                    borderRadius: 8.0,
+                    buttonSize: 40.0,
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      size: 24.0,
                     ),
-                    actions: [],
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: Align(
-                        alignment: AlignmentDirectional(0.0, 1.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/copie_logo_ltb_tranparent.png',
-                            width: 180.0,
-                            height: 180.0,
-                            fit: BoxFit.cover,
-                          ),
+                    onPressed: () async {
+                      context.safePop();
+                    },
+                  ),
+                  actions: [],
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Align(
+                      alignment: AlignmentDirectional(0.0, 1.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          'assets/images/copie_logo_ltb_tranparent.png',
+                          width: 180.0,
+                          height: 180.0,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      centerTitle: true,
-                      expandedTitleScale: 1.0,
-                      titlePadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                     ),
-                    elevation: 2.0,
+                    centerTitle: true,
+                    expandedTitleScale: 1.0,
+                    titlePadding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                   ),
+                  elevation: 2.0,
                 ),
                 body: Container(
                   width: double.infinity,
@@ -229,6 +238,8 @@ class _CreateListingCategory3WidgetState
                                               onTap: () async {
                                                 _model.selectedCategoryRef =
                                                     childrenCatItem.reference;
+                                                _model.selectedCategoryName =
+                                                    childrenCatItem.name;
                                                 safeSetState(() {});
                                               },
                                               child: Material(
@@ -424,35 +435,46 @@ class _CreateListingCategory3WidgetState
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       FFButtonWidget(
-                                        onPressed:
-                                            (_model.selectedCategoryRef == null)
-                                                ? null
-                                                : () async {
-                                                    unawaited(
-                                                      () async {
-                                                        await widget
-                                                            .listingRef!
-                                                            .update(
-                                                                createListingsRecordData(
-                                                          categoryRef: _model
-                                                              .selectedCategoryRef,
-                                                        ));
-                                                      }(),
-                                                    );
+                                        onPressed: (_model
+                                                    .selectedCategoryRef ==
+                                                null)
+                                            ? null
+                                            : () async {
+                                                unawaited(
+                                                  () async {
+                                                    await widget.listingRef!
+                                                        .update(
+                                                            createListingsRecordData(
+                                                      categoryRef: _model
+                                                          .selectedCategoryRef,
+                                                      categoryName: _model
+                                                          .selectedCategoryName,
+                                                    ));
+                                                  }(),
+                                                );
 
-                                                    context.pushNamed(
-                                                      CreateListingprix4Widget
-                                                          .routeName,
-                                                      queryParameters: {
-                                                        'listingRef':
-                                                            serializeParam(
-                                                          widget.listingRef,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                      }.withoutNulls,
-                                                    );
+                                                context.pushNamed(
+                                                  CreateListingprix4Widget
+                                                      .routeName,
+                                                  queryParameters: {
+                                                    'listingRef':
+                                                        serializeParam(
+                                                      widget.listingRef,
+                                                      ParamType
+                                                          .DocumentReference,
+                                                    ),
+                                                    'editListingDoc':
+                                                        serializeParam(
+                                                      widget.editListingDoc,
+                                                      ParamType.Document,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    'editListingDoc':
+                                                        widget.editListingDoc,
                                                   },
+                                                );
+                                              },
                                         text: 'Étape Suivante',
                                         options: FFButtonOptions(
                                           width: double.infinity,

@@ -96,14 +96,13 @@ class _AuthForgotPasswordWidgetState extends State<AuthForgotPasswordWidget> {
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.asset(
                       'assets/images/copie_logo_ltb_tranparent.png',
-                      width: 250.0,
+                      width: 216.46,
                       height: 50.0,
                       fit: BoxFit.cover,
                     ),
                   ),
                   actions: [],
                   centerTitle: true,
-                  toolbarHeight: 50.0,
                   elevation: 0.0,
                 )
               ],
@@ -325,25 +324,6 @@ class _AuthForgotPasswordWidgetState extends State<AuthForgotPasswordWidget> {
                                               'assets/images/Banniere_LTB-2.png',
                                               width: double.infinity,
                                               height: 40.5,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment:
-                                            AlignmentDirectional(0.0, 1.0),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 50.0, 0.0, 0.0),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: Image.asset(
-                                              'assets/images/Banniere_LTB-5.png',
-                                              width: 325.0,
-                                              height: 105.0,
                                               fit: BoxFit.cover,
                                             ),
                                           ),

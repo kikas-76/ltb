@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -127,6 +126,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['categories'],
             ),
+            categoryName: params.getParam(
+              'categoryName',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
@@ -186,9 +189,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => MyListingsWidget(),
         ),
         FFRoute(
-          name: SeeProfileWidget.routeName,
-          path: SeeProfileWidget.routePath,
-          builder: (context, params) => SeeProfileWidget(),
+          name: SettingsProfileWidget.routeName,
+          path: SettingsProfileWidget.routePath,
+          builder: (context, params) => SettingsProfileWidget(),
         ),
         FFRoute(
           name: CompleteYourProfilWidget.routeName,
@@ -218,18 +221,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: NavbarWidget.routeName,
-          path: NavbarWidget.routePath,
-          builder: (context, params) => NavbarWidget(),
-        ),
-        FFRoute(
-          name: MyListingsCopyWidget.routeName,
-          path: MyListingsCopyWidget.routePath,
-          builder: (context, params) => MyListingsCopyWidget(),
-        ),
-        FFRoute(
           name: CreateListingImage2Widget.routeName,
           path: CreateListingImage2Widget.routePath,
+          asyncParams: {
+            'editListingDoc': getDoc(['listings'], ListingsRecord.fromSnapshot),
+          },
           builder: (context, params) => CreateListingImage2Widget(
             listingRef: params.getParam(
               'listingRef',
@@ -237,18 +233,33 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['listings'],
             ),
+            editListingDoc: params.getParam(
+              'editListingDoc',
+              ParamType.Document,
+            ),
           ),
         ),
         FFRoute(
           name: CreateListingNom1Widget.routeName,
           path: CreateListingNom1Widget.routePath,
+          asyncParams: {
+            'editListingDoc': getDoc(['listings'], ListingsRecord.fromSnapshot),
+          },
           builder: (context, params) => params.isEmpty
               ? NavBarPage(initialPage: 'CreateListingNom1')
-              : CreateListingNom1Widget(),
+              : CreateListingNom1Widget(
+                  editListingDoc: params.getParam(
+                    'editListingDoc',
+                    ParamType.Document,
+                  ),
+                ),
         ),
         FFRoute(
           name: CreateListingCategory3Widget.routeName,
           path: CreateListingCategory3Widget.routePath,
+          asyncParams: {
+            'editListingDoc': getDoc(['listings'], ListingsRecord.fromSnapshot),
+          },
           builder: (context, params) => CreateListingCategory3Widget(
             listingRef: params.getParam(
               'listingRef',
@@ -256,17 +267,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['listings'],
             ),
+            editListingDoc: params.getParam(
+              'editListingDoc',
+              ParamType.Document,
+            ),
           ),
         ),
         FFRoute(
           name: CreateListingprix4Widget.routeName,
           path: CreateListingprix4Widget.routePath,
+          asyncParams: {
+            'editListingDoc': getDoc(['listings'], ListingsRecord.fromSnapshot),
+          },
           builder: (context, params) => CreateListingprix4Widget(
             listingRef: params.getParam(
               'listingRef',
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['listings'],
+            ),
+            editListingDoc: params.getParam(
+              'editListingDoc',
+              ParamType.Document,
             ),
           ),
         ),
@@ -281,6 +303,41 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['users'],
             ),
           ),
+        ),
+        FFRoute(
+          name: ReportpageWidget.routeName,
+          path: ReportpageWidget.routePath,
+          builder: (context, params) => ReportpageWidget(),
+        ),
+        FFRoute(
+          name: OffensantreportWidget.routeName,
+          path: OffensantreportWidget.routePath,
+          builder: (context, params) => OffensantreportWidget(),
+        ),
+        FFRoute(
+          name: AutrereportWidget.routeName,
+          path: AutrereportWidget.routePath,
+          builder: (context, params) => AutrereportWidget(),
+        ),
+        FFRoute(
+          name: DangerousreportWidget.routeName,
+          path: DangerousreportWidget.routePath,
+          builder: (context, params) => DangerousreportWidget(),
+        ),
+        FFRoute(
+          name: PubreportWidget.routeName,
+          path: PubreportWidget.routePath,
+          builder: (context, params) => PubreportWidget(),
+        ),
+        FFRoute(
+          name: VolreportWidget.routeName,
+          path: VolreportWidget.routePath,
+          builder: (context, params) => VolreportWidget(),
+        ),
+        FFRoute(
+          name: CgureportWidget.routeName,
+          path: CgureportWidget.routePath,
+          builder: (context, params) => CgureportWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

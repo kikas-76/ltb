@@ -12,7 +12,12 @@ import 'create_listing_nom1_model.dart';
 export 'create_listing_nom1_model.dart';
 
 class CreateListingNom1Widget extends StatefulWidget {
-  const CreateListingNom1Widget({super.key});
+  const CreateListingNom1Widget({
+    super.key,
+    this.editListingDoc,
+  });
+
+  final ListingsRecord? editListingDoc;
 
   static String routeName = 'CreateListingNom1';
   static String routePath = '/createListingNom';
@@ -32,10 +37,12 @@ class _CreateListingNom1WidgetState extends State<CreateListingNom1Widget> {
     super.initState();
     _model = createModel(context, () => CreateListingNom1Model());
 
-    _model.productNameTextController ??= TextEditingController();
+    _model.productNameTextController ??=
+        TextEditingController(text: widget.editListingDoc?.name);
     _model.productNameFocusNode ??= FocusNode();
 
-    _model.descriptionTextController ??= TextEditingController();
+    _model.descriptionTextController ??=
+        TextEditingController(text: widget.editListingDoc?.description);
     _model.descriptionFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -61,52 +68,49 @@ class _CreateListingNom1WidgetState extends State<CreateListingNom1Widget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(40.0),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderRadius: 8.0,
-                  buttonSize: 40.0,
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: FlutterFlowTheme.of(context).primaryText,
-                    size: 24.0,
-                  ),
-                  onPressed: () {
-                    print('IconButton pressed ...');
-                  },
+            appBar: AppBar(
+              backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+              automaticallyImplyLeading: false,
+              leading: FlutterFlowIconButton(
+                borderRadius: 8.0,
+                buttonSize: 40.0,
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: FlutterFlowTheme.of(context).primaryText,
+                  size: 24.0,
                 ),
-                actions: [
-                  Container(
-                    width: 48.0,
-                    height: 48.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondaryBackground,
-                    ),
-                  ),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Align(
-                    alignment: AlignmentDirectional(0.0, 1.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        'assets/images/copie_logo_ltb_tranparent.png',
-                        width: 180.0,
-                        height: 180.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  centerTitle: true,
-                  expandedTitleScale: 1.0,
-                  titlePadding:
-                      EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                ),
-                elevation: 3.0,
+                onPressed: () {
+                  print('IconButton pressed ...');
+                },
               ),
+              actions: [
+                Container(
+                  width: 48.0,
+                  height: 48.0,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
+                  ),
+                ),
+              ],
+              flexibleSpace: FlexibleSpaceBar(
+                title: Align(
+                  alignment: AlignmentDirectional(0.0, 1.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      'assets/images/copie_logo_ltb_tranparent.png',
+                      width: 180.0,
+                      height: 180.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                centerTitle: true,
+                expandedTitleScale: 1.0,
+                titlePadding:
+                    EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+              ),
+              elevation: 3.0,
             ),
             body: Stack(
               children: [
@@ -148,7 +152,12 @@ class _CreateListingNom1WidgetState extends State<CreateListingNom1Widget> {
                                 Align(
                                   alignment: AlignmentDirectional(-1.0, 0.0),
                                   child: Text(
-                                    'Créer une annonce',
+                                    valueOrDefault<String>(
+                                      widget.editListingDoc != null
+                                          ? 'Modifier l\'annonce'
+                                          : 'Créer une annonce',
+                                      'Créer une annonce',
+                                    ),
                                     style: FlutterFlowTheme.of(context)
                                         .headlineSmall
                                         .override(
@@ -462,37 +471,65 @@ class _CreateListingNom1WidgetState extends State<CreateListingNom1Widget> {
                       decoration: BoxDecoration(),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          var listingsRecordReference =
-                              ListingsRecord.collection.doc();
-                          await listingsRecordReference
-                              .set(createListingsRecordData(
-                            name: _model.productNameTextController.text,
-                            description: _model.descriptionTextController.text,
-                            createdAt: getCurrentTimestamp,
-                            ownerRef: currentUserReference,
-                            isActive: false,
-                          ));
-                          _model.createdListing =
-                              ListingsRecord.getDocumentFromData(
-                                  createListingsRecordData(
-                                    name: _model.productNameTextController.text,
-                                    description:
-                                        _model.descriptionTextController.text,
-                                    createdAt: getCurrentTimestamp,
-                                    ownerRef: currentUserReference,
-                                    isActive: false,
-                                  ),
-                                  listingsRecordReference);
+                          if (widget.editListingDoc != null) {
+                            await widget.editListingDoc!.reference
+                                .update(createListingsRecordData(
+                              name: _model.productNameTextController.text,
+                              description:
+                                  _model.descriptionTextController.text,
+                            ));
 
-                          context.pushNamed(
-                            CreateListingImage2Widget.routeName,
-                            queryParameters: {
-                              'listingRef': serializeParam(
-                                _model.createdListing?.reference,
-                                ParamType.DocumentReference,
-                              ),
-                            }.withoutNulls,
-                          );
+                            context.pushNamed(
+                              CreateListingImage2Widget.routeName,
+                              queryParameters: {
+                                'listingRef': serializeParam(
+                                  widget.editListingDoc?.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                                'editListingDoc': serializeParam(
+                                  widget.editListingDoc,
+                                  ParamType.Document,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'editListingDoc': widget.editListingDoc,
+                              },
+                            );
+                          } else {
+                            var listingsRecordReference =
+                                ListingsRecord.collection.doc();
+                            await listingsRecordReference
+                                .set(createListingsRecordData(
+                              name: _model.productNameTextController.text,
+                              description:
+                                  _model.descriptionTextController.text,
+                              createdAt: getCurrentTimestamp,
+                              ownerRef: currentUserReference,
+                              isActive: false,
+                            ));
+                            _model.createdListing =
+                                ListingsRecord.getDocumentFromData(
+                                    createListingsRecordData(
+                                      name:
+                                          _model.productNameTextController.text,
+                                      description:
+                                          _model.descriptionTextController.text,
+                                      createdAt: getCurrentTimestamp,
+                                      ownerRef: currentUserReference,
+                                      isActive: false,
+                                    ),
+                                    listingsRecordReference);
+
+                            context.pushNamed(
+                              CreateListingImage2Widget.routeName,
+                              queryParameters: {
+                                'listingRef': serializeParam(
+                                  _model.createdListing?.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
+                            );
+                          }
 
                           safeSetState(() {});
                         },

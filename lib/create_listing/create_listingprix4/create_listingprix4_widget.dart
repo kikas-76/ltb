@@ -19,9 +19,11 @@ class CreateListingprix4Widget extends StatefulWidget {
   const CreateListingprix4Widget({
     super.key,
     required this.listingRef,
+    this.editListingDoc,
   });
 
   final DocumentReference? listingRef;
+  final ListingsRecord? editListingDoc;
 
   static String routeName = 'CreateListingprix4';
   static String routePath = '/createListingprix';
@@ -41,10 +43,12 @@ class _CreateListingprix4WidgetState extends State<CreateListingprix4Widget> {
     super.initState();
     _model = createModel(context, () => CreateListingprix4Model());
 
-    _model.textField1TextController ??= TextEditingController();
+    _model.textField1TextController ??=
+        TextEditingController(text: widget.editListingDoc?.price.toString());
     _model.textField1FocusNode ??= FocusNode();
 
-    _model.textField2TextController ??= TextEditingController();
+    _model.textField2TextController ??= TextEditingController(
+        text: widget.editListingDoc?.depositAmount.toString());
     _model.textField2FocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -93,46 +97,43 @@ class _CreateListingprix4WidgetState extends State<CreateListingprix4Widget> {
                 key: scaffoldKey,
                 backgroundColor:
                     FlutterFlowTheme.of(context).secondaryBackground,
-                appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(40.0),
-                  child: AppBar(
-                    backgroundColor:
-                        FlutterFlowTheme.of(context).primaryBackground,
-                    automaticallyImplyLeading: false,
-                    leading: FlutterFlowIconButton(
-                      borderRadius: 8.0,
-                      buttonSize: 40.0,
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 24.0,
-                      ),
-                      onPressed: () async {
-                        context.safePop();
-                      },
+                appBar: AppBar(
+                  backgroundColor:
+                      FlutterFlowTheme.of(context).primaryBackground,
+                  automaticallyImplyLeading: false,
+                  leading: FlutterFlowIconButton(
+                    borderRadius: 8.0,
+                    buttonSize: 40.0,
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      size: 24.0,
                     ),
-                    actions: [],
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/copie_logo_ltb_tranparent.png',
-                            width: 180.0,
-                            height: 180.0,
-                            fit: BoxFit.cover,
-                            alignment: Alignment(0.0, 0.0),
-                          ),
+                    onPressed: () async {
+                      context.safePop();
+                    },
+                  ),
+                  actions: [],
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          'assets/images/copie_logo_ltb_tranparent.png',
+                          width: 180.0,
+                          height: 180.0,
+                          fit: BoxFit.cover,
+                          alignment: Alignment(0.0, 0.0),
                         ),
                       ),
-                      centerTitle: true,
-                      expandedTitleScale: 1.0,
-                      titlePadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                     ),
-                    elevation: 2.0,
+                    centerTitle: true,
+                    expandedTitleScale: 1.0,
+                    titlePadding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                   ),
+                  elevation: 2.0,
                 ),
                 body: Padding(
                   padding:
@@ -1643,17 +1644,32 @@ class _CreateListingprix4WidgetState extends State<CreateListingprix4Widget> {
                                 onPressed: (_model.pricePerDay == 0.0)
                                     ? null
                                     : () async {
-                                        await widget.listingRef!
-                                            .update(createListingsRecordData(
-                                          price: _model.pricePerDay,
-                                          isActive: true,
-                                          depositAmount: _model.deposit,
-                                          locationData:
-                                              updateLocationDataStruct(
-                                            currentUserDocument?.locationData,
-                                            clearUnsetFields: false,
-                                          ),
-                                        ));
+                                        if (widget.editListingDoc != null) {
+                                          await widget
+                                              .editListingDoc!.reference
+                                              .update(createListingsRecordData(
+                                            price: _model.pricePerDay,
+                                            isActive: true,
+                                            locationData:
+                                                updateLocationDataStruct(
+                                              currentUserDocument?.locationData,
+                                              clearUnsetFields: false,
+                                            ),
+                                            depositAmount: _model.deposit,
+                                          ));
+                                        } else {
+                                          await widget.listingRef!
+                                              .update(createListingsRecordData(
+                                            price: _model.pricePerDay,
+                                            isActive: true,
+                                            depositAmount: _model.deposit,
+                                            locationData:
+                                                updateLocationDataStruct(
+                                              currentUserDocument?.locationData,
+                                              clearUnsetFields: false,
+                                            ),
+                                          ));
+                                        }
 
                                         context.pushNamed(
                                             HomePageWidget.routeName);
